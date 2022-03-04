@@ -44,21 +44,18 @@ architecture a of example is
   -- CONFIG                            --   ,  ,  ,  ,
   constant clk_period : real           := 0.000000020;  -- in seconds. =50MHz clock
   constant pwm_period : real           := 0.001;      -- in seconds. the led blinks once per period. = 1KHz
-  constant pwm_time_to_on_off : real   := 2.0;       -- in seconds. how long the fading takes.
+  constant pwm_time_to_on_off : real   := 0.1;       -- in seconds. how long the fading takes.
   constant sit_pemanence_period : real := 0.1;     -- in seconds. how long the transmission is showed to
                                                    -- continue after the last change in the line.
-  constant pwm_period_parts : integer  := 256;     -- it's in how many parts the period of the pwm is split.
+  constant pwm_period_parts : integer  := 16;     -- it's in how many parts the period of the pwm is split.
 
 
-  -- compute the parameters from the config.                                                  --   ,  ,  ,  ,
-  constant pwm_precision_period : real := pwm_period / real(pwm_period_parts); -- in seconds.  = 0.00000390625
-  constant pwm_precision : integer := integer(pwm_precision_period / clk_period); -- in clk = 195 (removed .3125)
-                                                                           --  ,  ,  ,
-                                          -- 195 * 256 * 0.000000020       = 0.0009984 s (real pwm_period)
-  constant sit_permanence_duration : integer := integer (sit_pemanence_period / clk_period); -- in clk = 5000000.0
-                                                                                                           --   ,  ,  ,
-  constant pwm_time_to_change_one_part : real := pwm_time_to_on_off / real(pwm_period_parts); -- in seconds = 0.0078125
-  constant pwm_time_change_duty_cycle : integer := integer(pwm_time_to_change_one_part / clk_period); -- in clk = 390625.0
+  -- compute the parameters from the config.
+  constant pwm_precision_period : real := pwm_period / real(pwm_period_parts); -- in seconds.
+  constant pwm_precision : integer := integer(pwm_precision_period / clk_period); -- in clk
+  constant sit_permanence_duration : integer := integer (sit_pemanence_period / clk_period);
+  constant pwm_time_to_change_one_part : real := pwm_time_to_on_off / real(pwm_period_parts); -- in seconds
+  constant pwm_time_change_duty_cycle : integer := integer(pwm_time_to_change_one_part / clk_period); -- in clk
 
   -- other
   constant N : positive := 8;
