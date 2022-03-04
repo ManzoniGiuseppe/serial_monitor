@@ -81,18 +81,16 @@ begin
       if run("fixed dc to 1") then
         checker(given_dc   =>  (0 to 25 => 1),
                            --  dc    11111111111111111111111111
-                         -- slow dc  01111111111111111111111111
                     -- period                  ,           ,
                   -- precision        ,  ,  ,  ,  ,  ,  ,  ,  ,
-                expected_output => b"00000000001110000000001110");
+                expected_output => b"10000000001110000000001110");
                    -- period count   01112223330001112223330001
                  -- precision count  01201201201201201201201201
 
       elsif run("all varying dc") then
-        checker(given_dc   =>    (0 to 5 => 2, 6 to 14 => 1, 15 to 21 => 3, 22 to 25 => 0),
+        checker(given_dc   =>    (0 => 0, 1 to 6 => 2, 7 to 15 => 1, 16 to 22 => 3, 23 to 25 => 0),
                        -- position   01234567890123456789012345
-                           --  dc    22222211111111133333330000
-                         -- slow dc  02222221111111113333333000
+                           --  dc    02222221111111113333333000
                         -- period              ,           ,
                        -- precision   ,  ,  ,  ,  ,  ,  ,  ,  ,
                 expected_output => b"01110000001110001110001000");
@@ -100,10 +98,9 @@ begin
       elsif run("fixed dc to period") then
         checker(given_dc   =>    (0 to 25 => 4),
                            --  dc    11111111111111111111111111
-                         -- slow dc  01111111111111111111111111
                         -- period              ,           ,
                        -- precision   ,  ,  ,  ,  ,  ,  ,  ,  ,
-                expected_output => b"01111111111111111111111111");
+                expected_output => b"11111111111111111111111111");
 
       end if;
     end loop;

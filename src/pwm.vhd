@@ -62,13 +62,7 @@ begin
       end if;
     end process;
   else generate
-    -- to behave like the main case
-    process (clk)
-    begin
-      if rising_edge(clk) then
-        dc <= duty_cycle;
-      end if;
-    end process;
+    dc <= duty_cycle;
   end generate;
 
   p_c : entity work.counter_threshold
