@@ -25,7 +25,7 @@ entity serial_monitor is
     pwm_time_change_duty_cycle : natural);
   port (
     clk : in std_logic;  -- clock
-    rst : in std_logic;  -- sync reset. needs to be held to '1' for 2 cycles.
+    rst : in std_logic;  -- async reset.
 
     use_pwm : in std_logic; -- if to use the pwm or a direct on-off
 

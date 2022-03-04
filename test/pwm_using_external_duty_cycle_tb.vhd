@@ -58,7 +58,7 @@ begin
 
       duty_cycle <= to_unsigned(0, N);
       rst <= '1';
-      wait until rising_edge(clk); -- sync
+      wait until rising_edge(clk);
       rst <= '0';
 
       for i in 0 to given_dc'length-1 loop

@@ -69,7 +69,6 @@ begin
       use_pwm <= '0';
       transmission_line <= '0';
       rst <= '1';
-      wait until rising_edge(clk); -- sync, and needs to propagate internal signal.
       wait until rising_edge(clk);
       rst <= '0';
 

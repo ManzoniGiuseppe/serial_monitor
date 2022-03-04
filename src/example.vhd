@@ -15,7 +15,7 @@ use ieee.math_real.all;        -- log2, ceil
 entity example is
   port (
     clk : in std_logic;  -- clock
-    rst : in std_logic;  -- sync reset. needs to be held to '1' for 2 cycles.
+    rst : in std_logic;  -- async reset.
 
     use_pwm : in std_logic; -- if to use the pwm or a direct on-off
 

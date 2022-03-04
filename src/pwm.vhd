@@ -25,7 +25,7 @@ entity pwm is
                                     -- minimum number of bit to fit the value of 'period_parts'
   port (
     clk : in std_logic;  -- clock
-    rst : in std_logic;  -- sync reset
+    rst : in std_logic;  -- async reset
 
     duty_cycle : in unsigned(duty_cycle_width-1 downto 0);  -- in internal clock cycles.
 
@@ -48,18 +48,17 @@ begin
         rst => rst,
         is_below => do_change_duty_cycle);
 
-    process (clk)
+    process (clk, rst)
     begin
-      if rising_edge(clk) then
-        if rst = '1' then
-          dc <= duty_cycle;
-        elsif do_change_duty_cycle = '1' then
-          if duty_cycle < dc then
-            dc <= dc - 1;
-          elsif duty_cycle > dc then
-            dc <= dc + 1;
-          end if;
+      if rising_edge(clk) and do_change_duty_cycle = '1' then
+        if duty_cycle < dc then
+          dc <= dc - 1;
+        elsif duty_cycle > dc then
+          dc <= dc + 1;
         end if;
+      end if;
+      if rst = '1' then
+        dc <= to_unsigned(0, duty_cycle_width);
       end if;
     end process;
   else generate

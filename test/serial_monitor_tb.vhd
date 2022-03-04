@@ -77,7 +77,6 @@ begin
       tx_line <= '0';
       rx_line <= '0';
       rst <= '1';
-      wait until rising_edge(clk); -- sync, and needs to propagate data internally.
       wait until rising_edge(clk);
       rst <= '0';
 

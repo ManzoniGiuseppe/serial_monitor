@@ -52,7 +52,7 @@ begin
 
       transmission_line <= '0'; -- init at '0'
       rst <= '1';
-      wait until rising_edge(clk); -- sync
+      wait until rising_edge(clk);
       rst <= '0';
 
       for i in 0 to given_input'length-1 loop

@@ -19,7 +19,7 @@ entity counter_threshold is
     N : positive := natural(ceil(log2(real(period+1))))); -- min bit size for 'threshold'
   port (
     clk : in std_logic;  -- clock
-    rst : in std_logic;  -- sync reset
+    rst : in std_logic;  -- async reset
 
     en : in std_logic := '1'; -- enable. when true it ticks.
     threshold : in unsigned(N-1 downto 0) := (0 => '1', others => '0'); -- default 1.
@@ -31,18 +31,17 @@ end entity;
 architecture rtl of counter_threshold is
   signal count: unsigned(N-1 downto 0);   -- from 0 to 'period'-1 and again.
 begin
-  process (clk)
+  process (clk, rst)
   begin
-    if rising_edge(clk) then
-      if rst = '1' then
+    if rising_edge(clk) and en = '1' then
+      if count = to_unsigned(period-1, N) then
         count <= to_unsigned(0, N);
-      elsif en = '1' then
-        if count = to_unsigned(period-1, N) then
-          count <= to_unsigned(0, N);
-        else
-          count <= count + 1;
-        end if;
+      else
+        count <= count + 1;
       end if;
+    end if;
+    if rst = '1' then
+      count <= to_unsigned(0, N);
     end if;
   end process;
 

@@ -18,7 +18,7 @@ entity serial_is_transmitting is
                                      -- with no change to the 'transmission_line' signal
   port (
     clk : in std_logic;  -- clock
-    rst : in std_logic;  -- sync reset
+    rst : in std_logic;  -- async reset
 
     transmission_line : in std_logic; -- the rx/tx to check if it's transmitting
 
@@ -41,16 +41,17 @@ begin
     end if;
   end process;
 
-  process (clk)
+  process (clk, rst)
   begin
     if rising_edge(clk) then
-      if rst = '1' then
-        permanence <= (others => '0');
-      elsif transmission_line /= last_transmission_line then
+      if transmission_line /= last_transmission_line then
         permanence <= to_unsigned(permanence_duration, permanence_width);
       elsif permanence /= 0 then
         permanence <= permanence - 1;
       end if;
+    end if;
+    if rst = '1' then
+      permanence <= (others => '0');
     end if;
   end process;
 
